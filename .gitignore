@@ -27,3 +27,6 @@ nohup.out
 # Build directory
 build/
 build/*.class
+
+# Gradle folder
+.gradle/

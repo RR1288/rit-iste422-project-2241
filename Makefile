@@ -2,16 +2,22 @@
 all: clean buildAll runTest runApp
 
 # Build
-buildAll: 
-	javac -classpath .:lib/junit-4.12.jar:lib/hamcrest-core-1.3.jar src/main/java/*.java src/test/java/*.java -d build -nowarn
+
+buildMain: 
+	javac -classpath .:lib/junit-4.12.jar:lib/hamcrest-core-1.3.jar src/main/java/*.java -d build/classes/java/main -nowarn
+
+buildTest:
+	javac -classpath .:lib/junit-4.12.jar:lib/hamcrest-core-1.3.jar:build/classes/java/main src/test/java/*.java -d build/classes/java/test -nowarn
+
+buildAll: buildMain buildTest
 
 # Run tests
 runTest: buildAll
-	java -cp .:lib/junit-4.12.jar:lib/hamcrest-core-1.3.jar:build org.junit.runner.JUnitCore EdgeConnectorTest
+	java -cp .:lib/junit-4.12.jar:lib/hamcrest-core-1.3.jar:build/classes/java/main:build/classes/java/test org.junit.runner.JUnitCore EdgeConnectorTest
 
 # Run program
 runApp: buildAll
-	java -classpath build RunEdgeConvert
+	java -classpath build/classes/java/main RunEdgeConvert
 
 # Clean .class files
 clean:
